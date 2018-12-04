@@ -12,7 +12,7 @@ unit TestCalculadora;
 interface
 
 uses
-  TestFramework, Calculadora;
+  TestFramework, Calculadora, System.SysUtils, System.Variants;
 
 type
   // Test methods for class TCalculadora
@@ -24,7 +24,10 @@ type
     procedure SetUp; override;
     procedure TearDown; override;
   published
-    procedure TestSomar;
+    procedure TestSomar_Sucesso;
+    procedure TestDividir_Sucesso;
+    procedure TestDividir_Erro_DivisaoPorZero;
+
   end;
 
 implementation
@@ -40,15 +43,58 @@ begin
   FCalculadora := nil;
 end;
 
-procedure TestTCalculadora.TestSomar;
+procedure TestTCalculadora.TestDividir_Erro_DivisaoPorZero;
+var
+  ReturnValue: Double;
+  pValorA, pValorB: Integer;
+begin
+  // Arrange
+  pValorA := 10;
+  pValorB := 0;
+
+  try
+    // Act
+    ReturnValue := FCalculadora.Dividir(pValorA, pValorB);
+  except
+
+    // Assert
+    on E: Exception do
+      Check(E is EZeroDivide);
+  end;
+end;
+
+procedure TestTCalculadora.TestDividir_Sucesso;
+var
+  ReturnValue, pExpectedValue: Double;
+  pValorA, pValorB: Integer;
+begin
+  // Arrange
+  pValorA := 10;
+  pValorB := 4;
+  pExpectedValue := 2.5;
+
+  // Act
+  ReturnValue := FCalculadora.Dividir(pValorA, pValorB);
+
+  // Assert
+  CheckEquals(pExpectedValue, ReturnValue);
+end;
+
+procedure TestTCalculadora.TestSomar_Sucesso;
 var
   ReturnValue: Integer;
-  pValorB: Integer;
-  pValorA: Integer;
+  pValorA, pValorB, pExpectedValue: Integer;
 begin
-  // TODO: Setup method call parameters
+  // Arrange
+  pValorA := 10;
+  pValorB := 20;
+  pExpectedValue := 30;
+
+  // Act
   ReturnValue := FCalculadora.Somar(pValorA, pValorB);
-  // TODO: Validate method results
+
+  // Assert
+  CheckEquals(pExpectedValue, ReturnValue);
 end;
 
 initialization

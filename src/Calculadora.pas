@@ -2,6 +2,9 @@ unit Calculadora;
 
 interface
 
+uses
+  System.Sysutils;
+
 type
   TCalculadora = class
 
@@ -21,6 +24,9 @@ implementation
 
 function TCalculadora.Dividir(pValorA, pValorB: Integer): Double;
 begin
+  if (pValorB = 0) then
+    raise EZeroDivide.Create('Não é possível fazer divisão por 0 (zero).');
+  
   Result := pValorA / pValorB;
 end;
 
