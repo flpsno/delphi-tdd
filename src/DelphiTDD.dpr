@@ -15,7 +15,9 @@ program DelphiTDD;
 {$ENDIF}
 
 uses
-  DUnitTestRunner;
+  DUnitTestRunner,
+  Calculadora in 'Calculadora.pas',
+  TestCalculadora in 'TestCalculadora.pas';
 
 {$R *.RES}
 
